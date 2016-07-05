@@ -22,8 +22,7 @@
 }());
 
 $(function(){
-    //all data goes here
-    var model = {
+    window.model = {
       attendanceArray: [
       {
         name : 'Slappy the Frog',
@@ -64,6 +63,8 @@ var octopus = {
     var newRecord;
     $.each(model.attendanceArray, function(){
       if (this.id === studentName){
+        //remove hardcoded vals
+        var t = 12 - this.daysMissed; 
         this.daysMissed = daysMissed;
         newRecord = this;
       }
@@ -96,7 +97,6 @@ var view = {
   },
 
   initChecks: function(){
-//checkboxes
     var chckBoxArr = [];
     var cks = $(':checkbox');
     var chckBoxes = $(cks).each(function(i) {
