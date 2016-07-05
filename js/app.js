@@ -60,17 +60,22 @@ var octopus = {
   },
 
   updateAttendance: function(studentName, daysMissed) {
-    var newRecord;
+    var nv;
+    var ov;
     $.each(model.attendanceArray, function(){
       if (this.id === studentName){
+        ov = this;
+        // console.log(ov);
         //remove hardcoded vals
         var t = 12 - this.daysMissed; 
         this.daysMissed = daysMissed;
-        newRecord = this;
+        nv = this;
+        // console.log(ov);
+
       }
     });
 
-    view.updateRecords(newRecord);
+    view.updateRecords(ov, nv);
   }
 
 };
@@ -132,7 +137,7 @@ var view = {
     });
   },
 
-  updateRecords: function(newRecord){
+  updateRecords: function(oldRecord, newRecord){
     var id = newRecord.id;
     var missed = newRecord.daysMissed;
 
