@@ -22,6 +22,7 @@
 }());
 
 $(function(){
+  //change back to var from window
     window.model = {
       attendanceArray: [
       {
@@ -45,7 +46,7 @@ $(function(){
         id: 'GregorytheGoat'
       },
       {
-        name : 'Adam the Anaconda',
+        name : 'Adam the Alligator',
         daysMissed : 12,
         id: 'AdamtheAnaconda'
       },
@@ -77,7 +78,6 @@ var octopus = {
 
     view.updateRecords(ov, nv);
   }
-
 };
 
 var view = {
@@ -98,7 +98,6 @@ var view = {
       //add missed days   
       $('<td />', { html: data.daysMissed, 'class': 'missed-col'}).appendTo(tRow);
     });
-
   },
 
   initChecks: function(){
@@ -111,16 +110,18 @@ var view = {
     for (var i = 0; i < chckBoxArr.length; i++){
       chckBox = chckBoxArr[i];
 
-      chckBox.on('click', (function(chckCopy) {
-        return function() {
-          view.countAttendance(chckCopy);
-        };
+      chckBox.on('click', (function(chckCopy) {              
+          return function() {
+            view.countAttendance(chckCopy);
+            console.log(this);
+          };
       })(chckBox));
     }
   },
 
   countAttendance: function(recordToCheck){
     var studentName = recordToCheck[0].getAttribute('class');
+    //update to data attr
 
     //loop through the parents to find matching record
     $('.student').each(function(){
