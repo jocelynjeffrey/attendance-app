@@ -145,12 +145,8 @@ var view = {
     var missed = updatedRecord[0].daysMissed;
     var daysAttended = updatedRecord[0].daysAttended;
 
-    $('.student').each(function(){
-      var this$ = $(this);
-      if ( this$.attr('id') === id ) {
-          this$.find('.missed-col').html(missed-daysAttended);
-      }
-    });
+    $('#' + id).find('.missed-col').html(missed-daysAttended); 
+
   }
 };
 
