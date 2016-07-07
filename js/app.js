@@ -23,7 +23,7 @@
 
 $(function(){
   //change back to var from window
-    window.model = {
+   window.model = {
       attendanceArray: [
       {
         name : 'Slappy the Frog',
@@ -48,7 +48,7 @@ $(function(){
       {
         name : 'Adam the Alligator',
         daysMissed : 12,
-        id: 'AdamtheAnaconda'
+        id: 'AdamtheAlligator'
       },
       ]
     };
@@ -60,23 +60,19 @@ var octopus = {
     view.initChecks();
   },
 
-  updateAttendance: function(studentName, daysMissed) {
-    var nv;
-    var ov;
-    $.each(model.attendanceArray, function(){
-      if (this.id === studentName){
-        ov = this;
-        // console.log(ov);
-        //remove hardcoded vals
-        var t = 12 - this.daysMissed; 
-        this.daysMissed = daysMissed;
-        nv = this;
-        // console.log(ov);
+  updateAttendance: function(studentId, daysAttended) {
+    // get student obj by student id
+    var updatedRecord = $.grep(model.attendanceArray, function(e) {  
 
+      if (e.id === studentId){
+        //get index of record
+        var recordIndex = model.attendanceArray.indexOf(e);
+       return model.attendanceArray[recordIndex].daysAttended = daysAttended;
       }
+
     });
 
-    view.updateRecords(ov, nv);
+    view.updateRecords(updatedRecord);
   }
 };
 
@@ -113,7 +109,7 @@ var view = {
       chckBox.on('click', (function(chckCopy) {              
           return function() {
             view.countAttendance(chckCopy);
-            console.log(this);
+            // console.log(this);
           };
       })(chckBox));
     }
@@ -126,26 +122,33 @@ var view = {
     //loop through the parents to find matching record
     $('.student').each(function(){
       var this$ = $(this);
-      
+      var numOfDays;
       if ( this$.attr('id') === studentName ) {
       //loop through checkboxes to get checked
         this$.find('.attend-col :checked').each(function(i){
           //+1 to account for zero
-          var numOfDays = (i+1);
-          octopus.updateAttendance(studentName, numOfDays);
+         numOfDays = (i+1);
         });
+
+        if (numOfDays === undefined || null){
+          octopus.updateAttendance(studentName, 0);
+
+        } else {
+          octopus.updateAttendance(studentName, numOfDays);
+        }
       }
     });
   },
 
-  updateRecords: function(oldRecord, newRecord){
-    var id = newRecord.id;
-    var missed = newRecord.daysMissed;
+  updateRecords: function(updatedRecord){
+    var id = updatedRecord[0].id;
+    var missed = updatedRecord[0].daysMissed;
+    var daysAttended = updatedRecord[0].daysAttended;
 
     $('.student').each(function(){
       var this$ = $(this);
       if ( this$.attr('id') === id ) {
-          this$.find('.missed-col').html(12-missed);
+          this$.find('.missed-col').html(missed-daysAttended);
       }
     });
   }
