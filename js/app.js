@@ -81,6 +81,8 @@ var view = {
     var tbody$ = $('tbody');
     data.forEach(function(data) {
 
+      console.log(data)
+
       var noSpaceName = data.name.replace(/ /g,'');
       //create row that will house student records
       tRow = $('<tr />', { class: 'student ', id: noSpaceName}).prependTo(tbody$);
@@ -88,7 +90,7 @@ var view = {
       $('<td />', { html: data.name, 'class': 'name-col'}).prependTo(tRow);
       //add checkboxes
       var i = 0;
-      for (i; i < 12; i++) {
+      for (i; i < data.daysMissed; i++) {
         $('<td />', { html: '<input type="checkbox" class=' + noSpaceName + ' />', 'class': 'attend-col'}).appendTo(tRow);
       }   
       //add missed days   
@@ -146,6 +148,7 @@ var view = {
     var daysAttended = updatedRecord[0].daysAttended;
 
     $('#' + id).find('.missed-col').html(missed-daysAttended); 
+  }
 };
 
 octopus.init();
