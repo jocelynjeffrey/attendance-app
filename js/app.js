@@ -146,8 +146,6 @@ var view = {
     var daysAttended = updatedRecord[0].daysAttended;
 
     $('#' + id).find('.missed-col').html(missed-daysAttended); 
-
-  }
 };
 
 octopus.init();
