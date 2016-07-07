@@ -55,34 +55,27 @@ $(function(){
 
 var octopus = {
   init: function() {
-    data = model.attendanceArray;
-    view.init(data);
+    view.init(model.attendanceArray);
     view.initChecks();
   },
 
   updateAttendance: function(studentId, daysAttended) {
     // get student obj by student id
-    var updatedRecord = $.grep(model.attendanceArray, function(e) {  
-
+    var updatedRecord = $.grep(model.attendanceArray, function(e, i) {  
       if (e.id === studentId){
         //get index of record
-        var recordIndex = model.attendanceArray.indexOf(e);
-       return model.attendanceArray[recordIndex].daysAttended = daysAttended;
+        model.attendanceArray[i].daysAttended = daysAttended;
+        return true;
       }
-
-    });
-
-    view.updateRecords(updatedRecord);
+    });    
+    view.updateRecords(updatedRecord[0]);    
   }
 };
 
 var view = {
-  init: function() {
+  init: function(data) { 
     var tbody$ = $('tbody');
     data.forEach(function(data) {
-
-      console.log(data)
-
       var noSpaceName = data.name.replace(/ /g,'');
       //create row that will house student records
       tRow = $('<tr />', { class: 'student ', id: noSpaceName}).prependTo(tbody$);
@@ -111,7 +104,6 @@ var view = {
       chckBox.on('click', (function(chckCopy) {              
           return function() {
             view.countAttendance(chckCopy);
-            // console.log(this);
           };
       })(chckBox));
     }
@@ -120,7 +112,6 @@ var view = {
   countAttendance: function(recordToCheck){
     var studentName = recordToCheck[0].getAttribute('class');
     //update to data attr
-
     //loop through the parents to find matching record
     $('.student').each(function(){
       var this$ = $(this);
@@ -142,10 +133,10 @@ var view = {
     });
   },
 
-  updateRecords: function(updatedRecord){
-    var id = updatedRecord[0].id;
-    var missed = updatedRecord[0].daysMissed;
-    var daysAttended = updatedRecord[0].daysAttended;
+  updateRecords: function(recordToUpdate){
+    var id = recordToUpdate.id;
+    var missed = recordToUpdate.daysMissed;
+    var daysAttended = recordToUpdate.daysAttended;
 
     $('#' + id).find('.missed-col').html(missed-daysAttended); 
   }
