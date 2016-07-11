@@ -110,7 +110,7 @@ var view = {
 
   countAttendance: function(recordToCheck){
     var studentName = recordToCheck[0].getAttribute('class');
-    //update to data attr
+    //future update: change to data attr
     //loop through the parents to find matching record
     $('.student').each(function(){
       var this$ = $(this);
