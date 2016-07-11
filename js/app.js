@@ -100,7 +100,6 @@ var view = {
 
     for (var i = 0; i < chckBoxArr.length; i++){
       chckBox = chckBoxArr[i];
-
       chckBox.on('click', (function(chckCopy) {              
           return function() {
             view.countAttendance(chckCopy);
