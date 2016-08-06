@@ -25,7 +25,7 @@
 
 $(function(){
   //change back to var from window
-   window.model = {
+  var model = {
       attendanceArray: [
       {
         name : 'Erlich Bachman',
