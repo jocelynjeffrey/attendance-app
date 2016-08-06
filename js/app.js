@@ -28,29 +28,29 @@ $(function(){
    window.model = {
       attendanceArray: [
       {
-        name : 'Slappy the Frog',
+        name : 'Erlich Bachman',
         daysMissed : 12,
-        id: 'SlappytheFrog'
+        id: 'ErlichBachman'
       },
       {
-        name : 'Lilly the Lizard',
+        name : 'Bertram Gilfoyle',
         daysMissed : 12,
-        id: 'LillytheLizard'
+        id: 'Bertram Gilfoyle'
       },
       {
-        name : 'Paulrus the Walrus',
+        name : 'Jared Dunn',
         daysMissed : 12,
-        id: 'PaulrustheWalrus'
+        id: 'JaredDunn'
       },
       {
-        name : 'Gregory the Goat',
+        name : 'Dinesh Chugtai',
         daysMissed : 12,
-        id: 'GregorytheGoat'
+        id: 'DineshChugtai'
       },
       {
-        name : 'Adam the Alligator',
+        name : 'Richard Hendriks',
         daysMissed : 12,
-        id: 'AdamtheAlligator'
+        id: 'RichardHendriks'
       },
       ]
     };
