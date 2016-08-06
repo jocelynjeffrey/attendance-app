@@ -1,3 +1,4 @@
+// this function was provided by Udacity. See their GitHub repo at https://github.com/udacity/ud989-school-attendance
 (function() {
   if (!localStorage.attendance) {
     console.log('Creating attendance records...');
@@ -20,6 +21,7 @@
     localStorage.attendance = JSON.stringify(attendance);
   }
 }());
+//end of Udacity-provided function
 
 $(function(){
     window.model = {
