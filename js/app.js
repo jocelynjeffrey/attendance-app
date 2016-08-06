@@ -24,7 +24,8 @@
 //end of Udacity-provided function
 
 $(function(){
-    window.model = {
+  //change back to var from window
+   window.model = {
       attendanceArray: [
       {
         name : 'Slappy the Frog',
@@ -47,46 +48,36 @@ $(function(){
         id: 'GregorytheGoat'
       },
       {
-        name : 'Adam the Anaconda',
+        name : 'Adam the Alligator',
         daysMissed : 12,
-        id: 'AdamtheAnaconda'
+        id: 'AdamtheAlligator'
       },
       ]
     };
 
 var octopus = {
   init: function() {
-    data = model.attendanceArray;
-    view.init(data);
+    view.init(model.attendanceArray);
     view.initChecks();
   },
 
-  updateAttendance: function(studentName, daysMissed) {
-    var nv;
-    var ov;
-    $.each(model.attendanceArray, function(){
-      if (this.id === studentName){
-        ov = this;
-        // console.log(ov);
-        //remove hardcoded vals
-        var t = 12 - this.daysMissed; 
-        this.daysMissed = daysMissed;
-        nv = this;
-        // console.log(ov);
-
+  updateAttendance: function(studentId, daysAttended) {
+    // get student obj by student id
+    var updatedRecord = $.grep(model.attendanceArray, function(e, i) {  
+      if (e.id === studentId){
+        //get index of record
+        model.attendanceArray[i].daysAttended = daysAttended;
+        return true;
       }
-    });
-
-    view.updateRecords(ov, nv);
+    });    
+    view.updateRecords(updatedRecord[0]);    
   }
-
 };
 
 var view = {
-  init: function() {
+  init: function(data) { 
     var tbody$ = $('tbody');
     data.forEach(function(data) {
-
       var noSpaceName = data.name.replace(/ /g,'');
       //create row that will house student records
       tRow = $('<tr />', { class: 'student ', id: noSpaceName}).prependTo(tbody$);
@@ -94,13 +85,12 @@ var view = {
       $('<td />', { html: data.name, 'class': 'name-col'}).prependTo(tRow);
       //add checkboxes
       var i = 0;
-      for (i; i < 12; i++) {
+      for (i; i < data.daysMissed; i++) {
         $('<td />', { html: '<input type="checkbox" class=' + noSpaceName + ' />', 'class': 'attend-col'}).appendTo(tRow);
       }   
       //add missed days   
       $('<td />', { html: data.daysMissed, 'class': 'missed-col'}).appendTo(tRow);
     });
-
   },
 
   initChecks: function(){
@@ -112,43 +102,44 @@ var view = {
 
     for (var i = 0; i < chckBoxArr.length; i++){
       chckBox = chckBoxArr[i];
-
-      chckBox.on('click', (function(chckCopy) {
-        return function() {
-          view.countAttendance(chckCopy);
-        };
+      chckBox.on('click', (function(chckCopy) {              
+          return function() {
+            view.countAttendance(chckCopy);
+          };
       })(chckBox));
     }
   },
 
   countAttendance: function(recordToCheck){
     var studentName = recordToCheck[0].getAttribute('class');
-
+    //future update: change to data attr
     //loop through the parents to find matching record
     $('.student').each(function(){
       var this$ = $(this);
-      
+      var numOfDays;
       if ( this$.attr('id') === studentName ) {
       //loop through checkboxes to get checked
         this$.find('.attend-col :checked').each(function(i){
           //+1 to account for zero
-          var numOfDays = (i+1);
-          octopus.updateAttendance(studentName, numOfDays);
+         numOfDays = (i+1);
         });
+
+        if (numOfDays === undefined || null){
+          octopus.updateAttendance(studentName, 0);
+
+        } else {
+          octopus.updateAttendance(studentName, numOfDays);
+        }
       }
     });
   },
 
-  updateRecords: function(oldRecord, newRecord){
-    var id = newRecord.id;
-    var missed = newRecord.daysMissed;
+  updateRecords: function(recordToUpdate){
+    var id = recordToUpdate.id;
+    var missed = recordToUpdate.daysMissed;
+    var daysAttended = recordToUpdate.daysAttended;
 
-    $('.student').each(function(){
-      var this$ = $(this);
-      if ( this$.attr('id') === id ) {
-          this$.find('.missed-col').html(12-missed);
-      }
-    });
+    $('#' + id).find('.missed-col').html(missed-daysAttended); 
   }
 };
 
